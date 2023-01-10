@@ -75,19 +75,16 @@ namespace Tic_Tac_Toe
                 { 'b', 1 },
                 { 'c', 2 },
             };
-
             int col;
             int.TryParse(move[1].ToString(), out col);
             col -= 1;
+            int row = valuesToCharacters[move[0]];
 
             if (!valuesToCharacters.ContainsKey(move[0]))
             {
                 isPlayerRight = false;
                 return;
             }
-
-            int row = valuesToCharacters[move[0]];
-
             if (boardPosition[row][col] != ',' && boardPosition[row][col] != '.')
             {
                 isPlayerRight = false;
@@ -156,9 +153,7 @@ namespace Tic_Tac_Toe
             foreach (char[] arr in boardPosition)
             {
                 for (int i = 0; i < arr.Length; i++)
-                {
                     Console.Write($"{arr[i]} ");
-                }
                 Console.WriteLine("");
             }
         }
