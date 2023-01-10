@@ -12,16 +12,13 @@ namespace Tic_Tac_Toe
     internal class Program
     {
         static bool isPlayerRight = true;
-
         static char[][] boardPosition =
         {
-            new char[] {'.', '.', '.' },
-            new char[] {'.', '.', '.' },
-            new char[] {'.', '.', '.' }
+            new char[] {'.', ',', '.' },
+            new char[] {'.', ',', '.' },
+            new char[] {'.', ',', '.' }
         };
-
         static string[] arrayOfMoves = { "a1", "a2", "a3", "b1", "b2", "b3", "c1", "c2", "c3" };
-
         static int counter = 0;
         static int currentPlayer = 1;
 
@@ -31,7 +28,6 @@ namespace Tic_Tac_Toe
             Console.WriteLine("a1 | a2 | a3");
             Console.WriteLine("b1 | b2 | b3");
             Console.WriteLine("c1 | c2 | c3\n");
-
             Console.WriteLine("Player 1 is 'X'");
             Console.WriteLine("Player 2 is 'O'");
 
@@ -51,7 +47,8 @@ namespace Tic_Tac_Toe
                     }
                     isPlayerRight = true;
                     UpdateBoard(move, currentPlayer);
-                } else
+                }
+                else
                 {
                     while (true)
                     {
@@ -64,7 +61,6 @@ namespace Tic_Tac_Toe
                     }
                     UpdateBoard(move, currentPlayer);
                 }
-
                 if (isPlayerRight)
                     counter++;
             }
@@ -81,8 +77,6 @@ namespace Tic_Tac_Toe
             };
 
             int col;
-            int[] correctColumns = { 1, 2, 3 };
-
             int.TryParse(move[1].ToString(), out col);
             col -= 1;
 
@@ -94,7 +88,7 @@ namespace Tic_Tac_Toe
 
             int row = valuesToCharacters[move[0]];
 
-            if (boardPosition[row][col] != '.')
+            if (boardPosition[row][col] != ',' && boardPosition[row][col] != '.')
             {
                 isPlayerRight = false;
                 return;
@@ -133,6 +127,28 @@ namespace Tic_Tac_Toe
                 }
             }
             PrintBoard();
+            CheckBoard();
+        }
+
+        static void CheckBoard()
+        { 
+            foreach (char[] row in boardPosition) 
+                if (row[0] == row[1] && row[0] == row[2])
+                    Winner(row[0] == 'X' ? "Player 1" : "Player 2");
+
+            if (boardPosition[0][0] == boardPosition[1][1] && boardPosition[0][0] == boardPosition[2][2])
+                Winner(boardPosition[0][0] == 'X' ? "Player 1" : "Player 2");
+            
+            if (boardPosition[2][0] == boardPosition[1][1] && boardPosition[2][0] == boardPosition[0][2])
+                Winner(boardPosition[0][0] == 'X' ? "Player 1" : "Player 2");
+        }
+
+        static void Winner(string winner)
+        {
+            Console.WriteLine($"{winner} is the winner!");
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+            Environment.Exit(0);
         }
 
         static void PrintBoard()
